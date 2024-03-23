@@ -1,0 +1,62 @@
+【问题描述】
+
+        凯撒密码是古罗马凯撒大帝用来保护重要军情的加密系统。这套密码系统在现在看来很低级，但是在古罗马时期还是发挥了重要作用的。
+
+        凯撒密码的根本思想是按照字母表排列顺序将明文中每个字母变换成其后第n个字母。这里，n（n=1~25）被称作秘钥。
+
+        请编写程序，针对不同的输入字符串和移动位数，输出经过凯撒加密之后的字符串。
+
+
+【输入形式】
+
+第一个输入参数是移动的位数n，中间间隔一个空格之后，第二个输入参数是待加密的原文字符串
+【输出形式】
+
+加密后的密文字符串。注意，只加密字母，且不改变字母大小写。待加密的字符串可能存在比如"hello world"的形式，若与第一个参数一起以input的方式输入，在调用split()的时候要注意，会将待加密字符串也一并分割了。split()方法有参数指定分割多少项，建议采用，请上网搜索说明文档。
+【样例输入】
+
+5 NUDT
+【样例输出】
+
+SZIY
+【样例说明】
+
+输入参数中第一个参数'5'表示移动位数n=5，然后将第二个输入参数中每个字母都向后移动5位，得到输出字符串。
+def caesar_cipher(n, plaintext):
+    ciphertext = ""
+    for char in plaintext:
+        if char.isalpha():
+            shift = ord('A') if char.isupper() else ord('a')
+            encrypted_char = chr((ord(char) - shift + n) % 26 + shift)
+            ciphertext += encrypted_char
+        else:
+            ciphertext += char
+    return ciphertext
+
+# 获取输入参数
+try:
+    n, plaintext = input().split(maxsplit=1)
+    n = int(n)
+except ValueError:
+    print("illegal input")
+else:
+    # 调用加密函数并输出结果
+    result = caesar_cipher(n, plaintext)
+    print(result)
+在这段代码中，我们定义了一个名为caesar_cipher的函数，用于实现凯撒密码的加密功能。函数接受两个参数：移动的位数n和待加密的原文字符串plaintext。
+
+函数内部使用一个循环来遍历原文字符串的每个字符。首先判断字符是否为字母，如果是字母则进行加密操作。通过判断字符的大小写，确定偏移量shift，即字符的ASCII码。
+
+然后，使用凯撒密码的加密算法对字母进行移位操作，得到加密后的字符。加密后的字符通过ASCII码转换回字符形式，并添加到密文字符串ciphertext中。
+
+如果字符不是字母，则直接添加到密文字符串中。
+
+最后，将加密后的密文字符串返回。
+
+使用try-except块获取输入参数，并将第一个参数n转换为整数类型。如果无法成功地获取输入参数或者转换为整数，将输出提示信息"illegal input"。
+
+如果输入合法，我们调用caesar_cipher函数进行加密操作，并将结果存储在变量result中。
+
+最终，我们将密文字符串打印输出。
+
+对于输入"5 NUDT"，输出将是"SZIY"，表示经过凯撒加密后的密文字符串。如果输入为非法的格式，将输出"illegal input"。注意，代码中使用split()方法的maxsplit参数将其限制为仅分割一次，以便正常处理包含空格的输入字符串。
