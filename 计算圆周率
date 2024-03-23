@@ -1,0 +1,55 @@
+【问题描述】
+
+求解圆周率可以采用蒙特卡罗方法，在一个正方形中撒点，根据在 1/4 圆内点的数量占总撒点数的比例计算圆周率值。
+
+请以 123 作为随机数种子，获得用户输入的撒点数量，编写程序输出圆周率的值，保留小数点后 6 位。
+
+【输入形式】
+【输出形式】
+【样例输入】
+
+输入："1024"
+
+【样例输出】
+
+输出："3.218750"
+import random
+
+def estimate_pi(num_points):
+    random.seed(123)
+    points_inside_circle = 0
+    total_points = num_points
+
+    for _ in range(num_points):
+        x = random.uniform(0, 1)
+        y = random.uniform(0, 1)
+
+        distance = x*x + y*y
+        if distance <= 1:
+            points_inside_circle += 1
+
+    pi = 4 * points_inside_circle / total_points
+    return pi
+
+# 获取输入参数
+try:
+    num_points = int(input())
+except ValueError:
+    print("Invalid input")
+else:
+    # 调用估算圆周率函数并输出结果
+    result = estimate_pi(num_points)
+    print("{:.6f}".format(result))
+在这段代码中，我们定义了一个名为estimate_pi的函数，用于通过蒙特卡罗方法估算圆周率。函数接受一个参数num_points，表示撒点的数量。
+
+首先，我们使用random.seed(123)设置随机数种子为123，以确保每次运行得到相同的随机数序列。
+
+然后，我们使用一个循环来生成指定数量的随机点，每个点的坐标范围在[0, 1]之间。使用欧几里得距离的平方判断点是否在1/4圆内，如果是则将计数器points_inside_circle加1。
+
+最后，根据蒙特卡罗方法的原理，通过计算在1/4圆内的点的数量与总撒点数的比例，乘以4得到估算的圆周率。
+
+使用try-except块获取用户输入的撒点数量，并将其转换为整数类型。如果无法成功地获取输入或者转换为整数，将输出"Invalid input"。
+
+如果输入合法，我们调用estimate_pi函数进行圆周率估算，并将结果保留6位小数后打印输出。
+
+对于输入"1024"，输出将是"3.218750"，表示估算得到的圆周率值。如果输入为非法的格式，将输出"Invalid input"。
